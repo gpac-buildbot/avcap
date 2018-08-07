@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "avcap", "avcap.vcproj", "{6880AFFB-C657-4AA4-8038-6BBB2D710D6A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "captest", "captest.vcproj", "{3A1072C7-5A97-4E80-B806-3732395B6BD2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6880AFFB-C657-4AA4-8038-6BBB2D710D6A} = {6880AFFB-C657-4AA4-8038-6BBB2D710D6A}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6880AFFB-C657-4AA4-8038-6BBB2D710D6A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6880AFFB-C657-4AA4-8038-6BBB2D710D6A}.Debug|Win32.Build.0 = Debug|Win32
+		{6880AFFB-C657-4AA4-8038-6BBB2D710D6A}.Release|Win32.ActiveCfg = Release|Win32
+		{6880AFFB-C657-4AA4-8038-6BBB2D710D6A}.Release|Win32.Build.0 = Release|Win32
+		{3A1072C7-5A97-4E80-B806-3732395B6BD2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3A1072C7-5A97-4E80-B806-3732395B6BD2}.Debug|Win32.Build.0 = Debug|Win32
+		{3A1072C7-5A97-4E80-B806-3732395B6BD2}.Release|Win32.ActiveCfg = Release|Win32
+		{3A1072C7-5A97-4E80-B806-3732395B6BD2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

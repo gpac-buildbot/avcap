@@ -1,0 +1,127 @@
+1. avcap
+========
+
+The avcap-library (avcap: a video capture library) is a cross-API, cross-platform simple and easy to use C++ video capture library. 
+It's aim is to provide a unified API for Linux, Windows and Mac OS X to capture video from appropriate hardware. 
+It hides the system specific quirks and issues of different API's used on different systems to access 
+video capture hardware and hopefully helps to write portable capture-applications.
+
+avcap has been developed as a part of the Media Internet Streaming Toolbox (MIST), a toolbox to create flexible and scalable 
+video streaming applications. You can find more information at 
+http://ente.informatik.tu-freiberg.de/mist/ 
+
+1.1 GNU/Linux
+-------------
+
+Under GNU/Linux the avcap-library supports Video4Linux-Devices, Video4Linux2-Devices and AV/C-Devices (e.g. DV-Cams)
+as capture sources. Note that you need read/write permission to the /dev/video* files to use V4L(2)-Devices. 
+Usually it is sufficient, if the user is a member of the group that owns this files (usually group 'video'). 
+To capture from AV/C-Devices the user needs read/write permission to /dev/raw1394. 
+Membership in the group 'disk' should be sufficient here.
+
+1.1 Win32
+---------
+
+The Windows-version is basically a class wrapper for the DirectShow API and thus supports only devices with a 
+WDM (Windows driver model) or an old VFW (Video for windows) compliant capture device driver. 
+Understanding the avcap Win32 implementation may be a little dufficult because of the following reasons: 
+First, DirectShow is based on the Windows COM (component object model), second, in some cases, DirectShow is a
+little confusing (e.g. some DirectShow functions have a strange behavior -- workarounds are inevitable). 
+In addition to this, VFW, WDM and even WDM devices itself are handled differently by DirectShow. 
+Third, some important documentation is missing in the DirectShow documentation.
+ 
+1.3 Mac OS X
+------------
+
+The implementation for OS X uses the QuickTime SequenceGrabber-Component and has been tested with the built-in iSight, 
+various USB-cams and DV-Cams. Since there is no 64 bit QuickTime, programs using avcap are restricted to be 32 bit as well. 
+
+
+
+2. Building and Installation
+============================
+
+See the INSTALL file for generic instructions.
+
+Use the generic steps:
+
+./configure
+make
+make install
+
+After installation, the proper compiler- and linker-flags to use can be obtained from pkg-config with avcap as package-name.
+
+2.1. GNU/Linux
+--------------
+
+To capture from AV/C-Devices (e.g. DV-Cams) you need the following libs and their developement-files: 
+libiec61883, libavc1394, librom1394, libraw1394
+The configure-script uses pkg-config to get the propper compiler and linker settings for the libs.
+If you have these libs installed but wan't to build avcap without support for AV/C, call the configure-script with
+the --without-avc switch.
+
+2.2. Windows
+------------
+
+Add an environment variable WINSDK_DIR which holds the path to your Windows-SDK (containing DirectShow), 
+e.g. C:\Program Files\Microsoft SDKs\Windows\v6.1
+
+2.2.1. Building avcap with mingw
+--------------------------------
+
+The configure-script uses the pkg-config program, so install this first.
+Build the strmbase-library from the DirectShow (newer versions are contained in the Windows-SDK older ones 
+in the DirectX-SDK) in the directory $WINSDK_DIR/Samples/C++/DirectShow/BaseClasses and copy libSTRMBASE.a 
+to /mingw/lib/libstrmbase.a (use lower-case letters to make libtool happy)
+A nice introduction on how you can build the BaseClasses with mingw can be found here:
+http://step.polymtl.ca/~guardia/programming.php
+
+Copy the header-files from the BaseClasses-directory and from $WINSDK_DIR/Include to /mingw/include.
+Proceed with the generic build instructions.
+
+Prebuild binaries for 32-Bit Windows can be found in bin/win32.
+
+2.2.2. Building avcap with Microsoft Visual Studio
+--------------------------------------------------
+
+The contrib-directory contains a Visual Studio 2005 Solution. 
+Build the strmbase-lib in $WINSDK_DIR\Samples\Multimedia\DirectShow\BaseClasses (you propably have to fix some header-files in the SDK)
+Then the avcap-library should build.
+
+2.2.3 Using the prebuild windows libraries
+------------------------------------------
+
+The bin/win32 directory contains the prebuild static and dynamic avcap-library for windows, the import library and the captest application.
+If you don't have access to the DirectShow-SDK or don't wan't to build the base-classes or the avcap-lib yourself,
+you can use this prebuild libs for your application. 
+To use the prebuild libs you have to add bin/win32-directory to the library search path of your linker and the include-
+directory to the include search path. The configure-script usually creates the avcap-config.h file that is 
+included, if the library is build and used. There are two ways to circumvent compilation-errors due to a missing avcap-config.h file:
+
+1.) create an empty avcap-config.h and add the containing directory to the include-search path of the compiler
+2.) define the macro USE_PREBUILD_LIBS while compiling
+
+To build for instance the captest-application with the prebuild libs, go to the test-directory and type
+
+$ g++ captest.cpp TestCaptureHandler.cpp -o captest -I. -I../include -L../bin/win32 -lavcap
+ (with empty avcap-config.h created before in . ) or
+
+$ g++ captest.cpp TestCaptureHandler.cpp -DUSE_PREBUILD_LIBS -o captest -I../include -L../bin/win32 -lavcap
+
+3. Usage
+========
+
+For an example on how to use the avcap-library take a look at the captest-program in the test-directory and the doxygen generated
+inline documentation in the doc-directory.
+
+
+4. Licence
+==========
+
+(C) 2005, 2009 Nico Pranke <Nico.Pranke@googlemail.com>, Win32 implementation by Robin Luedtke <RobinLu@gmx.de> 
+ 
+For non-commercial use, avcap is distributed under the GNU General Public License version 3. 
+Refer to the file "COPYING" for details.
+
+For commercial use, please contact Nico Pranke <Nico.Pranke@googlemail.com> for licensing.
+

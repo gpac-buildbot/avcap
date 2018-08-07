@@ -1,0 +1,201 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.56)
+AC_INIT([A video capture library], 0.1.9, Nico.Pranke@googlemail.com, avcap)
+m4_pattern_allow([^AS_])	
+
+# Making releases:
+#   AVCAP_MICRO_VERSION += 1;
+#   AVCAP_INTERFACE_AGE += 1;
+#   AVCAP_BINARY_AGE += 1;
+# if any functions have been added, set AVCAP_INTERFACE_AGE to 0.
+# if backwards compatibility has been broken,
+# set AVCAP_BINARY_AGE and AVCAP_INTERFACE_AGE to 0.
+#
+
+AVCAP_MAJOR_VERSION=0
+AVCAP_MINOR_VERSION=1
+AVCAP_MICRO_VERSION=8
+AVCAP_INTERFACE_AGE=2
+AVCAP_BINARY_AGE=2
+AVCAP_VERSION=$AVCAP_MAJOR_VERSION.$AVCAP_MINOR_VERSION.$AVCAP_MICRO_VERSION
+
+AC_SUBST(AVCAP_MAJOR_VERSION)
+AC_SUBST(AVCAP_MINOR_VERSION)
+AC_SUBST(AVCAP_MICRO_VERSION)
+AC_SUBST(AVCAP_INTERFACE_AGE)
+AC_SUBST(AVCAP_BINARY_AGE)
+AC_SUBST(AVCAP_VERSION)
+
+# libtool versioning
+LT_RELEASE=$AVCAP_MAJOR_VERSION.$AVCAP_MINOR_VERSION
+LT_CURRENT=`expr $AVCAP_MICRO_VERSION - $AVCAP_INTERFACE_AGE`
+LT_REVISION=$AVCAP_INTERFACE_AGE
+LT_AGE=`expr $AVCAP_BINARY_AGE - $AVCAP_INTERFACE_AGE`
+AC_SUBST(LT_RELEASE)
+AC_SUBST(LT_CURRENT)
+AC_SUBST(LT_REVISION)
+AC_SUBST(LT_AGE)
+
+m4_ifdef([AS_HELP_STRING], , [m4_define([AS_HELP_STRING], m4_defn([AC_HELP_STRING]))])
+
+# echo $AVCAP_VERSION $LT_RELEASE $LT_CURRENT $LT_REVISION
+
+AC_CONFIG_AUX_DIR([aux_config])
+AM_INIT_AUTOMAKE(avcap, $AVCAP_VERSION)
+AM_INIT_AUTOMAKE([-Wall])
+AC_CONFIG_HEADER([config.h])
+AX_PREFIX_CONFIG_H([avcap-config.h], AVCAP)
+
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_LANG(C++)
+AC_PROG_INSTALL
+AC_LIBTOOL_DLOPEN
+AC_LIBTOOL_WIN32_DLL
+AC_PROG_LIBTOOL
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+AM_MAINTAINER_MODE
+
+AC_ARG_WITH(avc,    [  --with-avc              create backend for AV/C-devices (e.g. DV-Cams) (default: yes)])
+
+for top_builddir in . .. ../.. $ac_auxdir $ac_auxdir/..; do
+  test -f $top_builddir/configure && break
+done
+
+if test "`uname -s`" == "Linux"; then
+	AVCAP_PLATFORM="LINUX"
+	PLATFORM_SUBDIR=linux
+	PLATFORM_LIB=linux/liblinuxavcap.la
+	AC_CHECK_HEADER(linux/videodev.h)
+	AC_CHECK_HEADER(linux/videodev2.h, HAS_V4L2=yes, HAS_V4L2=no)
+	if test "$HAS_V4L2" == "yes"; then
+		AC_DEFINE([HAVE_V4L2], [1], [Video4Linux2])
+	fi
+	AC_DEFINE([LINUX], [1], [Compile avcap for Linux])
+fi
+
+if test "`uname -s`" == "Darwin"; then
+	AC_CHECK_HEADER(QuickTime/QuickTime.h, HAS_QUICKTIME=yes, HAS_QUICKTIME=no)
+	if test "$HAS_QUICKTIME" == "yes"; then
+		AVCAP_PLATFORM="OSX"
+		PLATFORM_SUBDIR=osx
+		PLATFORM_LIB=osx/libosxavcap.la
+		AC_DEFINE([OSX], [1], [Compile avcap for Mac OS X])
+		OSLIBS="-framework QuickTime -framework QuartzCore -arch `uname -m`"
+		LDFLAGS="$LDFLAGS $OSLIBS"
+		AVCAP_DEPS_LIBS=" -lpthread "
+		AVCAP_DEPS_CFLAGS="$AVCAP_DEPS_CFLAGS -arch `uname -m`"
+	fi
+fi
+
+if test -n "`uname -s|grep MINGW`"; then
+	LDFLAGS="$LDFLAGS -no-undefined "
+	AC_CHECK_HEADER(DShow.h, HAS_DIRECT_SHOW=yes, HAS_DIRECT_SHOW=no)
+	if test "$HAS_DIRECT_SHOW" == "yes"; then
+		AVCAP_PLATFORM="WINDOWS"
+		PLATFORM_SUBDIR=windows
+		PLATFORM_LIB=windows/libwindowsavcap.la
+		AC_DEFINE([WINDOWS], [1], [Compile avcap for Windows])
+		AVCAP_DEPS_LIBS="$AVCAP_DEPS_LIBS -lstrmbase -luuid -lole32 -lwinmm -lstrmiids -loleaut32"
+	fi
+fi
+
+# Using pkg-config to find includes and libraries flags
+AC_DEFUN([PKG_CHECK_EX], [
+	AC_MSG_CHECKING([$2])
+	if $PKG_CONFIG --exists "$2" ; then
+		$3="$$3 $2" 
+		$1="yes"
+	else
+		$1="no"
+	fi
+	AC_MSG_RESULT([$$1])
+])
+
+AC_DEFUN([ADD_CFLAG_D], [
+	if test "$$1" != "no"; then
+		$2="$$2 -D$3"
+	fi
+])
+
+# Linux-specific tests
+if test "$AVCAP_PLATFORM" == "LINUX"; then
+	AVC_FOUND="no"
+	if test -z "$with_avc"; then
+		# Checks for libraries.
+		LIBS_FOUND=""
+		if test "$PKG_CONFIG" != "no"; then
+			PKG_CHECK_EX(LIBIEC61883_FOUND, libiec61883, LIBS_FOUND)
+			PKG_CHECK_EX(LIBDV_FOUND, libdv, LIBS_FOUND)
+			PKG_CHECK_EX(LIBAVC1394_FOUND, libavc1394, LIBS_FOUND)
+		
+			if test "$LIBIEC61883_FOUND" != "no" && 
+				test "$LIBDV_FOUND" != "no"	&& 
+				test "$LIBAVC1394_FOUND" != "no"; then
+				PKG_CHECK_MODULES(AVCAP_DEPS, [$LIBS_FOUND])
+				AVCAP_DEPS_CFLAGS="$AVCAP_DEPS_CFLAGS -DHAS_AVC_SUPPORT"
+				AVC_FOUND="yes"
+			fi			
+		fi
+	fi
+	
+	AVCAP_DEPS_LIBS="$AVCAP_DEPS_LIBS -lpthread "
+	AVCAP_DEPS_CFLAGS="$AVCAP_DEPS_CFLAGS"
+fi
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([fcntl.h float.h inttypes.h limits.h stddef.h stdlib.h string.h sys/ioctl.h sys/time.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+# AC_TYPE_INT16_T
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+AC_STRUCT_TM
+# AC_TYPE_UINT8_T
+AC_C_VOLATILE
+
+# Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_MALLOC
+AC_FUNC_MEMCMP
+AC_FUNC_MKTIME
+AC_FUNC_MMAP
+AC_FUNC_SELECT_ARGTYPES
+AC_FUNC_STAT
+AC_CHECK_FUNCS([gettimeofday memset munmap pow select sqrt strerror])
+
+AC_SUBST(AVCAP_DEPS_CFLAGS)
+AC_SUBST(AVCAP_DEPS_LIBS)
+AC_SUBST(AVCAP_PLATFORM)
+AC_SUBST(PLATFORM_SUBDIR)
+AC_SUBST(PLATFORM_LIB)
+AC_SUBST(OSLIBS)
+
+
+if test "$AVCAP_PLATFORM" == "LINUX"; then
+	echo
+	echo "AV/C-support:	  " $AVC_FOUND
+	echo	
+fi
+
+AC_CONFIG_FILES([
+	Makefile 
+	avcap/Makefile 
+	avcap/linux/Makefile 
+	avcap/osx/Makefile 
+	avcap/windows/Makefile 
+	include/Makefile
+	include/avcap/Makefile
+	test/Makefile
+	])
+
+AC_OUTPUT
+
+

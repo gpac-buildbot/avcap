@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6880AFFB-C657-4AA4-8038-6BBB2D710D6A}</ProjectGuid>
+    <RootNamespace>avcap</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\DEVTOOLS\ddrawSDK\lib\x64;C:\DEVTOOLS\DXSDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(DIRECTX_SDK)\BaseClasses;$(DIRECTXSDK)\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(DIRECTX_SDK)\BaseClasses;$(DIRECTXSDK)\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\DEVTOOLS\ddrawSDK\lib\x64;C:\DEVTOOLS\DXSDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(DIRECTX_SDK)\BaseClasses;$(DIRECTXSDK)\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/wd4430 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(WINSDK_DIR)\Samples\Multimedia\DirectShow\BaseClasses;$(WINSDK_DIR)\Include;..\include\avcap\windows;..\include\avcap;$(DXSDK_DIR)\Samples\C++\DirectShow\BaseClasses;$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AVCAP_EXPORTS;AVCAP_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>../../lib/$(Platform)\$(Configuration)/$(ProjectName)d.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions>/wd4430 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(WINSDK_DIR)\Samples\Multimedia\DirectShow\BaseClasses;$(WINSDK_DIR)\Include;..\include\avcap\windows;..\include\avcap;$(DXSDK_DIR)\Samples\C++\DirectShow\BaseClasses;$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AVCAP_EXPORTS;AVCAP_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>../../lib/$(Platform)\$(Configuration)/$(ProjectName)d.lib</OutputFile>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/wd4430 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>$(WINSDK_DIR)\Samples\Multimedia\DirectShow\BaseClasses;$(WINSDK_DIR)\Include;..\include\avcap\windows;..\include\avcap;$(DXSDK_DIR)\Samples\C++\DirectShow\BaseClasses;$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;AVCAP_EXPORTS;AVCAP_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>../../lib/$(Platform)\$(Configuration)/$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions>/wd4430 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>$(WINSDK_DIR)\Samples\Multimedia\DirectShow\BaseClasses;$(WINSDK_DIR)\Include;..\include\avcap\windows;..\include\avcap;$(DXSDK_DIR)\Samples\C++\DirectShow\BaseClasses;$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;AVCAP_EXPORTS;AVCAP_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>../../lib/$(Platform)\$(Configuration)/$(ProjectName).lib</OutputFile>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\avcap\avcap-export.h" />
+    <ClInclude Include="..\include\avcap\avcap.h" />
+    <ClInclude Include="..\include\avcap\CaptureDevice.h" />
+    <ClInclude Include="..\include\avcap\CaptureHandler.h" />
+    <ClInclude Include="..\include\avcap\CaptureManager.h" />
+    <ClInclude Include="..\include\avcap\Connector.h" />
+    <ClInclude Include="..\include\avcap\ConnectorManager.h" />
+    <ClInclude Include="..\include\avcap\Control_avcap.h" />
+    <ClInclude Include="..\include\avcap\ControlManager.h" />
+    <ClInclude Include="..\include\avcap\windows\Crossbar.h" />
+    <ClInclude Include="..\include\avcap\DeviceCollector.h" />
+    <ClInclude Include="..\include\avcap\DeviceDescriptor.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_Connector.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_ConnectorManager.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_Control.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_ControlManager.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_Device.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_DeviceDescriptor.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_FormatManager.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_Tuner.h" />
+    <ClInclude Include="..\include\avcap\windows\DS_VidCapManager.h" />
+    <ClInclude Include="..\include\avcap\FormatManager.h" />
+    <ClInclude Include="..\include\avcap\windows\FormatNames.h" />
+    <ClInclude Include="..\include\avcap\windows\HelpFunc.h" />
+    <ClInclude Include="..\include\avcap\Interval.h" />
+    <ClInclude Include="..\include\avcap\IOBuffer.h" />
+    <ClInclude Include="..\include\avcap\log.h" />
+    <ClInclude Include="..\include\avcap\Manager.h" />
+    <ClInclude Include="..\include\avcap\ProbeValues.h" />
+    <ClInclude Include="..\include\avcap\windows\SampleGrabberCallback.h" />
+    <ClInclude Include="..\include\avcap\singleton.h" />
+    <ClInclude Include="..\include\avcap\Tuner_avcap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\avcap\ConnectorManager.cpp" />
+    <ClCompile Include="..\avcap\ControlManager.cpp" />
+    <ClCompile Include="..\avcap\windows\Crossbar.cpp" />
+    <ClCompile Include="..\avcap\DeviceCollector.cpp" />
+    <ClCompile Include="..\avcap\DeviceDescriptor.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_Connector.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_ConnectorManager.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_Control.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_ControlManager.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_Device.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_DeviceDescriptor.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_FormatManager.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_Tuner.cpp" />
+    <ClCompile Include="..\avcap\windows\DS_VidCapManager.cpp" />
+    <ClCompile Include="..\avcap\FormatManager.cpp" />
+    <ClCompile Include="..\avcap\IOBuffer.cpp" />
+    <ClCompile Include="..\avcap\windows\SampleGrabberCallback.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Release\avcap.dll.embed.manifest" />
+    <Manifest Include="Release\avcap.dll.intermediate.manifest" />
+    <Manifest Include="Release\avcapd.dll.embed.manifest" />
+    <Manifest Include="Release\avcapd.dll.intermediate.manifest" />
+    <Manifest Include="Release\captest.exe.embed.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Release\BuildLog.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

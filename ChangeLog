@@ -1,0 +1,122 @@
+30.11.2009
+==========
+
+- Improved the captest utility to be able to set control values, input and output connectors and capture framerate.
+- bugfix: Mac OS X compilation problem due to missing 64 bit QuickTime.
+
+
+08.10.2009
+==========
+
+- bugfix: setting format params fails sometimes for v4l2-devices.
+
+
+05.06.2009
+==========
+
+Releasing version 0.1.8 of avcap.
+
+- This release contains 2 bug-fixes of the Mac OS X backend only:
+  1. using undefined type STANDARD_ID_T in FormatManager.h
+  2. calling DeviceDescriptor::close() and CaptureDevice::close() in a circular way
+
+22.04.2009
+==========
+
+Releasing version 0.1.7 of avcap.
+
+- bugfix: Building applications with the prebuild windows libraries not possible 
+(see the README, section: Using the prebuild windows libraries)
+- bugfix: Possible Null-Pointer for V4L2-Control in Control-list.
+- Modified CaptureDevice creation and memory management: The unique CaptureDevice object for a particular hardware
+  must be obtained from DeviceDescriptor::getDevice() now. In order to create the object the method 
+  DeviceDescriptor::open() must be called first. DeviceDescriptor::close() can then be called, if the device-object
+  is not used anymore. The ownership of the device-object remains with the DeviceDescriptor, so  you must not delete it. 
+  The open() and close() methods of the CaptureDevice are now superfluous and have been omitted. 
+  The same is true for DeviceDescriptor::createDevice()
+
+09.01.2009
+==========
+
+Releasing version 0.1.6 of avcap.
+
+- Implemented FormatManager::getFramerate() and setFramerate() for the DS_FormatManager (thanks Dao77)
+  This relates only to the Win32-implementation of the library.
+
+27.11.2008
+==========
+
+Releasing version 0.1.5 of avcap.
+
+- bugfix: "access violation in qedit.dll" after opening a DirectShow capture device the second time and starting capture.  
+
+14.11.2008
+==========
+
+Releasing version 0.1.4 of avcap.
+
+- bugfix: exiting process on erroneous AV/C device initialization. This is not the expected behaviour for a library.
+
+08.10.2008
+==========
+
+- moved remove/registerCaptureHandler to CaptureManager base class
+- added CaptureManager::getCaptureHandler()
+- changed CaptureManager::removeCaptureHandler()-signature (omitted dispensable parameter *handler)
+
+02.10.2008
+==========
+
+Releasing version 0.1.2 of avcap.
+
+- Controls of DirectShow-devices are no more reset at startup and have now persistent values 
+
+01.09.2008
+==========
+
+Releasing version 0.1.2 of avcap.
+
+- added abstract control-class hirarchy to provide control-specific interfaces
+- added support for the V4L2 extended controls 
+- removed support for device-specific extensions, 
+  since they are now covered by the V4L2 extended controls
+- bugfix: missing -lpthread in configure.in
+
+25.08.2008
+==========
+
+- added support for V4L2 extended controls
+
+21.08.2008
+==========
+
+- bugfix: multiple calls to CaptureDevice::open invalidate device
+- modified semantics of DeviceDescriptor::createDevice
+
+08.08.2008
+==========
+
+- bugfix: missing include string.h on some systems
+
+25.06.2008
+==========
+
+- bugfix: in Debug-output for AV/C-Devices in DeviceCollector.cpp
+- bugfix: query resolutions for ivtv in V4L2_FormatManager.cpp
+- bugfix: check device index in captest.cpp
+
+17.06.2008 
+==========
+
+Releasing version 0.1 of avcap.
+
+Currently implemented backends for operating systems/capture API's are:
+
+- Linux: Video4Linux, Video4Linux2, IEEE1394 AV/C DV-Cams
+- Mac OS X: QuickTime
+- Win32: DirectShow
+
+The release contains the platform independent source, a small test application (captest)
+and precompiled binaries for win32
+
+
